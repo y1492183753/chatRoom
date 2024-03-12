@@ -5,7 +5,7 @@ export interface LoginReq{
 export interface RegisterReq{
     username:string
     password:string
-    email:string
+    nickname:string
 }
 
 export interface LoginRespVO{
@@ -13,3 +13,4 @@ export interface LoginRespVO{
     username:string;
     token:string;
 }
+

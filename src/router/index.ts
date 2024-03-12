@@ -7,7 +7,24 @@ const routes: RouteRecordRaw[] = [{
     component: () => import('../views/login/login.vue')
 }, {
     path: '/home',
-    component: () => import('../views/home/home.vue')
+    component: () => import('../views/home/home.vue'),
+    children: [
+        {
+		    name: "Chat",
+		    path: "/home/chat",
+		    component: () => import('../views/home/chat.vue'),
+		  },
+          {
+		    name: "Friend",
+		    path: "/home/friend",
+		    component: () => import('../views/home/friend.vue'),
+		  },
+          {
+		    name: "Friends",
+		    path: "/home/group",
+		    component: () => import('../views/home/group.vue'),
+		  },
+    ]
 }, {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',

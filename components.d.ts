@@ -8,18 +8,26 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     Demo: typeof import('./src/components/login/demo.vue')['default']
+    ElAside: typeof import('element-plus/es')['ElAside']
     ElButton: typeof import('element-plus/es')['ElButton']
+    ElContainer: typeof import('element-plus/es')['ElContainer']
     ElFomrItem: typeof import('element-plus/es')['ElFomrItem']
     ElForm: typeof import('element-plus/es')['ElForm']
     ElFormItem: typeof import('element-plus/es')['ElFormItem']
     ElIcon: typeof import('element-plus/es')['ElIcon']
     ElInput: typeof import('element-plus/es')['ElInput']
     ElItem: typeof import('element-plus/es')['ElItem']
+    ElMenu: typeof import('element-plus/es')['ElMenu']
+    ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
     ElResult: typeof import('element-plus/es')['ElResult']
+    ElScrollbar: typeof import('element-plus/es')['ElScrollbar']
     LoginForm: typeof import('./src/components/login/loginForm.vue')['default']
     LoginForn: typeof import('./src/components/login/loginForn.vue')['default']
     RegisterForm: typeof import('./src/components/login/registerForm.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+  }
+  export interface ComponentCustomProperties {
+    vLoading: typeof import('element-plus/es')['ElLoadingDirective']
   }
 }

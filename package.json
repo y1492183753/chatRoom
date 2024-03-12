@@ -14,7 +14,8 @@
     "element-plus": "^2.6.0",
     "pinia": "^2.1.7",
     "vue": "^3.2.47",
-    "vue-router": "^4.3.0"
+    "vue-router": "^4.3.0",
+    "vuex": "^4.1.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.1.0",

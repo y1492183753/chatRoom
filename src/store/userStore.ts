@@ -8,8 +8,9 @@ export const useUserStore = defineStore('userUserId', {
   state: () => ({ 
     token:"",
     username:"",
-    userId:""
-
+    userId:"",
+    nickName:"默认昵称",
+    headImage:"../assets/default-head.jpg"
   }),
   getters: {
    getUserName():string{
@@ -20,6 +21,12 @@ export const useUserStore = defineStore('userUserId', {
    },
    getUserId():string{
     return this.userId
+   },
+   getNickName():string{
+    return this.nickName
+   },
+   getHeadImage():string{
+    return this.headImage
    }
   },
   actions: {

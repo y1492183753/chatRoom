@@ -1,6 +1,10 @@
 <template>
     <ElForm class="register-form" ref="registerRef" :model="registerParam" :rules="registerRules">
         <h1>注册</h1>
+        <ElFormItem prop="nickName">
+            <el-input v-model="registerParam.nickname"  style="width: 100%" placeholder="请输入昵称"
+                :prefix-icon="User" />
+        </ElFormItem>
         <ElFormItem prop="username">
             <el-input v-model="registerParam.username" style="width: 100%" placeholder="请输入账号" :prefix-icon="User" />
         </ElFormItem>
@@ -8,10 +12,7 @@
             <el-input v-model="registerParam.password"  style="width: 100%" placeholder="请输入密码"
                 :prefix-icon="Lock" />
         </ElFormItem>
-        <ElFormItem prop="email">
-            <el-input v-model="registerParam.email"  style="width: 100%" placeholder="请输入邮箱"
-                :prefix-icon="Message" />
-        </ElFormItem>
+      
         <ElFormItem>
             <el-button type="primary" style="width: 100%" @click="$event => submit(registerRef)">注册</el-button>
         </ElFormItem>
@@ -23,7 +24,7 @@
 
 import { ref, reactive } from 'vue'
 import { RegisterReq } from '../../interface/user';
-import { User, Lock,Message} from '@element-plus/icons-vue'
+import { User, Lock} from '@element-plus/icons-vue'
 import { ElMessage, FormInstance, FormRules } from 'element-plus';
 import { userRegisterApi } from '../../api/userApi';
 
@@ -32,7 +33,7 @@ const emit = defineEmits(['registerSuccess'])
 const registerParam: RegisterReq = reactive({
     username: "",
     password: "",
-    email: ""
+    nickname: ""
 })
 
 const registerRef = ref<FormInstance>();
