@@ -4,10 +4,10 @@ import instance from "../utils/request";
 
 // 注册接口
 export const userRegisterApi=(param:RegisterReq)=>{
-   return instance.post<any,IResponse<any>>("/api/user/register",param)
+   return instance.post<any,IResponse<any>>("/register",param)
 }
 
 //登录接口
 export const userLoginApi=(param:LoginReq)=>{
-    return instance.post<any,IResponse<LoginRespVO>>("/api/user/login",param)
+    return instance.post<any,IResponse<LoginRespVO>>("/login",param)
 }

@@ -19,19 +19,29 @@
             </div>
             <el-scrollbar class="chat-list-items">
                 <div v-for="(chat, index) in chatStore.chats" :key="index">
-                    <chat-item v-show="chat.showName.startsWith(searchText)" :chat="chat" :index="index" v-bind="$attrs"
+                    <chatItem v-show="chat.showName.startsWith(searchText)" :chat="chat" :index="index" v-bind="$attrs"
                         @click="onActiveItem(index)" @delete="onDelItem(index)" @top="onTop(index)"
-                        :active="chat === chatStore.activeChat"></chat-item>
+                        :active="chat === chatStore.activeChat"></chatItem>
                 </div>
             </el-scrollbar>
         </div>
+        <el-container class="chat-box">
+			<chatBox v-if="chatStore.activeChat" :chat="chatStore.activeChat"></chatBox>
+		</el-container>
     </div>
 </template>
 
 <script>
-
+import ChatItem from '../../components/chat/chatItem.vue'
+import ChatBox from '../../components/chat/chatBox.vue'
+import { useChatStore } from '../../store/chatStore'
+const store = useChatStore()
 export default {
     name: 'Chat',
+    components: {
+		ChatItem,
+		ChatBox
+	},
     // Add your component logic here
     data() {
         return {
@@ -41,23 +51,24 @@ export default {
             groupMembers: []
         }
     },
+   
     methods: {
         onActiveItem(index) {
-            this.$store.commit("activeChat", index);
+            store.activeChat(index)
         },
         onDelItem(index) {
-            this.$store.commit("removeChat", index);
+            store.removeChat(index)
         },
         onTop(chatIdx) {
-            this.$store.commit("moveTop", chatIdx);
+            store.moveTop(chatIdx)
         },
     },
     computed: {
         chatStore() {
-            return this.$store.state.chatStore;
+            return store;
         },
-        loading() {
-            return this.chatStore.loadingGroupMsg || this.chatStore.loadingPrivateMsg
+        loading(){
+            return store.loadingGroupMsg || store.loadingPrivateMsg
         }
     }
 }

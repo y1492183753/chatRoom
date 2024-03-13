@@ -3,9 +3,9 @@ import {
     MESSAGE_TYPE,
     MESSAGE_STATUS
 } from "../api/enum"
-import userStore from './userStore';
+import {useUserStore} from './userStore';
 import { Commit } from 'vuex';
-import { Chat, State, Message, Getters , Friend ,UserState ,ChatData ,Context} from '../interface/chat';
+import { Chat, State, Message, Getters, Friend, UserState, ChatData, Context, MsgInfo } from '../interface/chat';
 
 const userStore = {
     state: {
@@ -40,6 +40,9 @@ export const useChatStore = defineStore('chatStore', {
                 })
             })
         },
+        // 是在 this.chats 数组中查找一个与 chatInfo 参数匹配的聊天会话。
+        // 如果找到了匹配的聊天会话，它会将这个会话移动到 this.chats 数组的顶部。
+        // 如果没有找到匹配的聊天会话，它会创建一个新的聊天会话，并将其添加到 this.chats 数组的顶部。
         openChat(this: State, chatInfo: { type: any; targetId: any; showName: any; headImage: any; }) {
             let chat = null;
             for (let idx in this.chats) {
@@ -62,11 +65,13 @@ export const useChatStore = defineStore('chatStore', {
                     unreadCount: 0,
                     messages: [],
                     atMe: false,
-                    atAll: false
+                    atAll: false,
+                    sendNickName: "", // 添加这个属性
                 };
                 this.chats.unshift(chat);
             }
         },
+        // 当你想要激活（或选中）chats 数组中的一个特定聊天时，你可以调用这个函数，并传入该聊天在数组中的索引。
         activeChat(state: { activeChat: any; chats: any[]; }, idx: number): void {
             state.activeChat = state.chats[idx];
         },
@@ -166,7 +171,7 @@ export const useChatStore = defineStore('chatStore', {
             // 是否有人@我
             if (!msgInfo.selfSend && chat.type == "GROUP" && msgInfo.atUserIds &&
                 Number(msgInfo.status) != MESSAGE_STATUS.READED) {
-                let userId = userStore.state.userInfo.id;
+                let userId = Number(userStore.state.userInfo.id);
                 if (msgInfo.atUserIds.indexOf(userId) >= 0) {
                     chat.atMe = true;
                 }
@@ -178,7 +183,7 @@ export const useChatStore = defineStore('chatStore', {
                 let newMessage: Message = {
                     sendTime: msgInfo.sendTime,
                     type: MESSAGE_TYPE.TIP_TIME.toString(),
-                    loadStatus:"",
+                    loadStatus: "",
                     sendNickName: "",
                     // add other required properties here...
                 };
@@ -240,17 +245,20 @@ export const useChatStore = defineStore('chatStore', {
         sortChats(state: State) {
             state.chats.sort((c1: Chat, c2: Chat) => c2.lastSendTime - c1.lastSendTime);
         },
-        loadingPrivateMsg({ commit, state }: { commit: Commit; state: State }, loading: boolean) {
+        loadingPrivateMsg({ commit, state }: { commit: Commit; state: State }, loading: boolean) { 
             commit('setLoadingPrivateMsg', loading);
             if (!state.loadingPrivateMsg && !state.loadingGroupMsg) {
-                commit('sortChats');
+            state.loadingPrivateMsg = false
+            commit('sortChats');
             }
         },
         loadingGroupMsg({ commit, state }: { commit: Commit; state: State }, loading: boolean) {
             commit('setLoadingGroupMsg', loading);
             if (!state.loadingPrivateMsg && !state.loadingGroupMsg) {
                 commit('sortChats');
+                state.loadingGroupMsg= false
             }
+           
         },
         // 为了在用户下次访问时，能够从 localStorage 中恢复聊天数据，我们需要将聊天数据保存到 localStorage 中。
         saveToStorage(state: State): void {
@@ -280,6 +288,47 @@ export const useChatStore = defineStore('chatStore', {
                 }
                 resolve();
             });
-       
-    },
+
+        },
+        // 通常在需要找到特定聊天在数组中的位置时被调用。例如，你可能需要这个位置来更新或删除该聊天。
+        findChatIdx: (state: State) => (chat: Chat) => {
+            for (let idx in state.chats) {
+                if (state.chats[idx].type == chat.type &&
+                    state.chats[idx].targetId === chat.targetId) {
+                    chat = state.chats[idx];
+                    return parseInt(idx);
+                }
+            }
+        },
+        // 通常在需要找到特定聊天时被调用。例如，你可能需要这个聊天来显示聊天信息或更新聊天状态。
+        findChat: (state: State) => (msgInfo: MsgInfo): Chat | null => {
+            let type = msgInfo.groupId ? 'GROUP' : 'PRIVATE';
+            let targetId = msgInfo.groupId ? msgInfo.groupId : msgInfo.selfSend ? msgInfo.recvId : msgInfo.sendId;
+            let chat = null;
+            for (let idx in state.chats) {
+                if (state.chats[idx].type == type &&
+                    state.chats[idx].targetId === targetId) {
+                    chat = state.chats[idx];
+                    break;
+                }
+            }
+            return chat;
+        },
+        // 这个函数的目的是在聊天记录中找到与给定消息信息匹配的消息。
+        findMessage: (state: State) => (chat: Chat, msgInfo: MsgInfo): Message | null => {
+            if (!chat || !msgInfo) {
+                return null;
+            }
+            for (let idx in chat.messages) {
+                if (msgInfo.id && 'id' in chat.messages[idx] && chat.messages[idx]?.id?.toString() === msgInfo.id.toString()) {
+                    return chat.messages[idx];
+                }
+                if (msgInfo.selfSend && 'selfSend' in chat.messages[idx] && chat.messages[idx]?.selfSend &&
+                    'sendTime' in chat.messages[idx] && chat.messages[idx]?.sendTime === msgInfo.sendTime) {
+                    return chat.messages[idx];
+                }
+            }
+            return null;
+        }
+    }
 });

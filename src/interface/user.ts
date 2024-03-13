@@ -11,6 +11,7 @@ export interface RegisterReq{
 export interface LoginRespVO{
     id:string;
     username:string;
-    token:string;
+    terminal:0
+
 }
 

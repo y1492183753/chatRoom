@@ -62,3 +62,11 @@ export interface Context {
     commit: (mutation: string, payload: any) => void;
 }
           
+export interface MsgInfo {
+    groupId?: string;
+    selfSend?: boolean;
+    recvId?: string;
+    sendId?: string;
+    id?: string;
+    sendTime?: number;
+}

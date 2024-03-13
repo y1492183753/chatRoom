@@ -4,7 +4,7 @@ import router from "../router";
 const instance = axios.create({
     timeout:6000,
     headers:{"Content-Type":"application/json"},
-    baseURL:'/dev'
+    baseURL:'https://6u16672v39.goho.co:31336'
 })
 
 //拦截器（直接拿到后端的业务数据）

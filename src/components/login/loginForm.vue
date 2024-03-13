@@ -23,12 +23,13 @@ import { userLoginApi } from '../../api/userApi';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '../../store/userStore';
 
-const router=useRouter()
-const userStore=useUserStore()
+const router = useRouter()
+const userStore = useUserStore()
 
 const loginParam: LoginReq = reactive({
   username: "",
-  password: ""
+  password: "",
+  terminal: 0
 })
 
 const loginRef = ref<FormInstance>();
@@ -43,17 +44,16 @@ const submit = (formEl: FormInstance | undefined) => {
   }
   formEl.validate(async (validate: boolean) => {
     if (validate) {
-      console.log("开始做登录的逻辑");
-      ElMessage.success("登陆成功")
-      router.push("/home")
-      //登录-交互
-      // await userLoginApi(loginParam).then((res)=>{
-      //   ElMessage.success("登陆成功")
-      //   userStore.setToken(res.data.token)
-      //   userStore.setUserName(res.data.username)
-      //   userStore.setUserId(res.data.id)
+      // console.log("开始做登录的逻辑");
+      // ElMessage.success("登陆成功")
       // router.push("/home")
-      // }).catch((error)=>{})
+      //登录-交互
+      await userLoginApi(loginParam).then((res) => {
+        ElMessage.success("登陆成功")
+        userStore.setUserName(res.data.username)
+        userStore.setUserId(res.data.id)
+        router.push("/home")
+      }).catch((error) => { })
     } else {
       return false
     }

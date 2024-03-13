@@ -18,7 +18,9 @@
     "vuex": "^4.1.0"
   },
   "devDependencies": {
+    "@types/node": "^20.11.26",
     "@vitejs/plugin-vue": "^4.1.0",
+    "sass": "^1.71.1",
     "typescript": "^4.9.3",
     "unplugin-auto-import": "^0.17.5",
     "unplugin-vue-components": "^0.26.0",

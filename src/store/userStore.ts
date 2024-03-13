@@ -10,7 +10,7 @@ export const useUserStore = defineStore('userUserId', {
     username:"",
     userId:"",
     nickName:"默认昵称",
-    headImage:"../assets/default-head.jpg"
+    headImage:"../assets/default-head.jpg",
   }),
   getters: {
    getUserName():string{
