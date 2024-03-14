@@ -71,7 +71,7 @@
 
 <script setup lang="ts">
 import axios from 'axios';
-import { useEnvApi, useTestErrorApi } from '../../api/testApi';
+// import { useEnvApi, useTestErrorApi } from '../../api/testApi';
 import { onMounted } from 'vue';
 import { ref } from 'vue';
 import { useUserStore } from '../../store/userStore';

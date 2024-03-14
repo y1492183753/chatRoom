@@ -1,17 +1,24 @@
 export interface LoginReq{
-    username:string;
+    userName:string;
+    terminal:0;
     password:string;
 }
 export interface RegisterReq{
-    username:string
-    password:string
-    nickname:string
+    userName:string;
+    password:string;
+    nickName:string
 }
 
 export interface LoginRespVO{
-    id:string;
-    username:string;
-    terminal:0
-
+    userName:string;
+    terminal:0;
+    password:string
 }
+
+export interface Result{
+    code:number;
+    message:string;
+    data:any
+}
+
 

@@ -2,7 +2,7 @@
   <ElForm class="login-form" ref="loginRef" :model="loginParam" :rules="loginRules">
     <h1 class="login-title">登录</h1>
     <ElFormItem prop="username">
-      <el-input v-model="loginParam.username" style="width: 100%" placeholder="请输入账号" :prefix-icon="User" />
+      <el-input v-model="loginParam.userName" style="width: 100%" placeholder="请输入账号" :prefix-icon="User" />
     </ElFormItem>
     <ElFormItem prop="password">
       <el-input v-model="loginParam.password" style="width: 100%" placeholder="请输入密码" :prefix-icon="Lock" />
@@ -27,14 +27,14 @@ const router = useRouter()
 const userStore = useUserStore()
 
 const loginParam: LoginReq = reactive({
-  username: "",
+  userName: "",
   password: "",
   terminal: 0
 })
 
 const loginRef = ref<FormInstance>();
 const loginRules: FormRules = reactive({
-  username: [{ required: true, message: "账号不能为空", trigger: 'blur' }],
+  userName: [{ required: true, message: "账号不能为空", trigger: 'blur' }],
   password: [{ required: true, message: "密码不能为空", trigger: 'blur' }]
 })
 
@@ -50,8 +50,8 @@ const submit = (formEl: FormInstance | undefined) => {
       //登录-交互
       await userLoginApi(loginParam).then((res) => {
         ElMessage.success("登陆成功")
-        userStore.setUserName(res.data.username)
-        userStore.setUserId(res.data.id)
+        userStore.setUserName(res.data.userName)
+        // userStore.setUserId(res.data.id)
         router.push("/home")
       }).catch((error) => { })
     } else {

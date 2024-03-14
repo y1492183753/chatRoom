@@ -1,10 +1,10 @@
 import { IResponse } from "../interface/base";
-import { LoginReq, RegisterReq ,LoginRespVO} from "../interface/user";
+import { LoginReq, RegisterReq ,LoginRespVO ,Result} from "../interface/user";
 import instance from "../utils/request";
 
 // 注册接口
 export const userRegisterApi=(param:RegisterReq)=>{
-   return instance.post<any,IResponse<any>>("/register",param)
+   return instance.post<any,IResponse<Result>>("/register",param)
 }
 
 //登录接口

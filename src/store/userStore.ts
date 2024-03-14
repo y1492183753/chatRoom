@@ -7,14 +7,14 @@ export const useUserStore = defineStore('userUserId', {
   // 其他配置...
   state: () => ({ 
     token:"",
-    username:"",
+    userName:"",
     userId:"",
     nickName:"默认昵称",
     headImage:"../assets/default-head.jpg",
   }),
   getters: {
    getUserName():string{
-    return this.username
+    return this.userName
    },
    getToken():string{
     return this.token
@@ -33,8 +33,8 @@ export const useUserStore = defineStore('userUserId', {
     setToken(token:string){
         this.token=token
     },
-    setUserName(username:string){
-        this.username=username
+    setUserName(userName:string){
+        this.userName=userName
     },
     setUserId(userId:string){
         this.userId=userId

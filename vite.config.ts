@@ -15,12 +15,12 @@ export default defineConfig({
       resolvers: [ElementPlusResolver()],
     }),],
  
-  // server:{
-  //   proxy:{
-  //     '/dev':{
-  //       target:'http://6u16672v39.goho.co:8888',
-  //       rewrite:(path)=>path.replace(/^\/dev/,'')
-  //     }
-  //   }
-  // }
+  server:{
+    proxy:{
+      '/dev':{
+        target:'http://82.157.184.71:8888',
+        rewrite:(path)=>path.replace(/^\/dev/,'')
+      }
+    }
+  }
 })

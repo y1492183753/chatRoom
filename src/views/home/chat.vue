@@ -20,7 +20,7 @@
             <el-scrollbar class="chat-list-items">
                 <div v-for="(chat, index) in chatStore.chats" :key="index">
                     <chatItem v-show="chat.showName.startsWith(searchText)" :chat="chat" :index="index" v-bind="$attrs"
-                        @click="onActiveItem(index)" @delete="onDelItem(index)" @top="onTop(index)"
+                        @click="onActiveItem(index)" @delete="onDelItem(index)" @top="onTop(index)"·
                         :active="chat === chatStore.activeChat"></chatItem>
                 </div>
             </el-scrollbar>
